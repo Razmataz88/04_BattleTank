@@ -75,3 +75,6 @@ Intermediate/*
 
 # Cache files for the editor to use
 DerivedDataCache/*
+
+# Starter content not used for this project
+Content/StarterContent/HDRI/*
