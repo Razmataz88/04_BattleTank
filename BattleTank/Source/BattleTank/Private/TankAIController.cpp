@@ -3,6 +3,14 @@
 #include "TankAIController.h"
 #include "tank.h"
 
+void ATankAIController::Tick(float DeltaTime)
+{
+    Super::Tick(DeltaTime);
+    if (GetPlayerTank())
+    {
+        GetControlledTank()->AimAt(GetPlayerTank()->GetActorLocation());
+    }
+}
 
 ATank* ATankAIController::GetControlledTank() const 
 {
@@ -40,4 +48,4 @@ void ATankAIController::BeginPlay()
 	}
 	UE_LOG(LogTemp, Warning, TEXT("TankAIController Begin Play"));
 }
-
+  
