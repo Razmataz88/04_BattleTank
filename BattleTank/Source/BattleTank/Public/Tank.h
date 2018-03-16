@@ -22,11 +22,14 @@ public:
 
     void AimAt(FVector HitLocation);
     
+    UFUNCTION(BluePrintCallable, Category = Firing)
+    void FireProjectile();
+    
     // Called to bind functionality to input
     virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
     UPROPERTY(EditAnywhere, Category = Firing)
-    float LaunchSpeed = 100000; // Sensible starting value of 1000 m/s
+    float LaunchSpeed = 4000; // Sensible starting value of 1000 m/s
 
     UFUNCTION(BluePrintCallable, Category = Setup)
     void SetBarrelReference(UTankBarrel* BarrelToSet);
