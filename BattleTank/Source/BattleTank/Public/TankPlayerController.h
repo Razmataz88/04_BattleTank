@@ -38,5 +38,5 @@ private:
     float CrossHairYLocation = 0.33333;
 
     UPROPERTY(EditDefaultsOnly)
-    float LineTraceRange = 10000000.0;
+    float LineTraceRange = 100000000000000.0;
 };
