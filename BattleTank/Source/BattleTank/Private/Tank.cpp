@@ -26,7 +26,7 @@ void ATank::AimAt(FVector HitLocation)
 
 void ATank::FireProjectile()
 {
-    UE_LOG(LogTemp, Warning, TEXT("Fire Projectile!"));
+    //UE_LOG(LogTemp, Warning, TEXT("Fire Projectile!"));
     bool isReloaded = (GetWorld()->GetTimeSeconds() - LastFireTime) > ReloadTimeInSeconds;
 
     if (Barrel && isReloaded) 

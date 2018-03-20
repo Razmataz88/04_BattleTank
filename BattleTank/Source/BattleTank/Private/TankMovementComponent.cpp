@@ -29,3 +29,15 @@ void UTankMovementComponent::IntendTurnRight(float Throw)
 
     // TODO prevent double-speed due to dual input
 }
+
+void UTankMovementComponent::RequestDirectMove(const FVector & MoveVelocity, bool bForceMaxSpeed)
+{
+    auto AIForwardIntention = MoveVelocity.GetSafeNormal();
+    auto TankForwardDirection = GetOwner()->GetActorForwardVector().GetSafeNormal();
+    
+    auto ForwardThrow = FVector::DotProduct(TankForwardDirection, AIForwardIntention);
+    auto RightThrow = FVector::CrossProduct(TankForwardDirection, AIForwardIntention).Z;
+    
+    IntendMoveForward(ForwardThrow);
+    IntendTurnRight(RightThrow);
+}
