@@ -9,18 +9,6 @@
 void ATankPlayerController::BeginPlay()
 {
     Super::BeginPlay();
-    
-    auto ControlledTank = GetControlledTank();
-
-    if (!ControlledTank)
-    {
-        UE_LOG(LogTemp, Warning, TEXT("PlayerController not possesing a tank"));
-    }
-    else
-    {
-        UE_LOG(LogTemp, Warning, TEXT("PlayerController possessing: %s"), (*ControlledTank->GetName()));
-    }
-    UE_LOG(LogTemp, Warning, TEXT("PlayerController Begin Play"));
 }
 
 // Called every frame
@@ -57,7 +45,6 @@ bool ATankPlayerController::GetSightRayHitLocation(FVector& HitLocation) const
     {
         // line trance along that look direction, and see what we hit
         GetLookVectorHitLocation(LookDirection, HitLocation);
-        //UE_LOG(LogTemp, Warning, TEXT("WorldDirection: %s"), *HitLocation.ToString());
         return true;
     }
     
