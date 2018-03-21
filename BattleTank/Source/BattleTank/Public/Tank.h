@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// Copyright Razmataz Productions
 
 #pragma once
 
@@ -10,7 +10,6 @@ class UTankBarrel;
 class UTankTurret;
 class AProjectile;
 class UTankAimingComponent;
-class UTankMovementComponent;
 
 UCLASS()
 class BATTLETANK_API ATank : public APawn
@@ -23,39 +22,28 @@ public:
 
     void AimAt(FVector HitLocation);
     
-    UFUNCTION(BluePrintCallable, Category = Firing)
+    UFUNCTION(BluePrintCallable, Category = "Firing")
     void FireProjectile();
     
-    // Called to bind functionality to input
-    virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-
-    UPROPERTY(EditDefaultsOnly, Category = Firing)
+    UPROPERTY(EditDefaultsOnly, Category = "Firing")
     float LaunchSpeed = 4000; 
 
-    UPROPERTY(EditDefaultsOnly, Category = Firing)
+    UPROPERTY(EditDefaultsOnly, Category = "Firing")
     float ReloadTimeInSeconds = 3;
 
-    UPROPERTY(EditDefaultsOnly, Category = Setup)
+    UPROPERTY(EditDefaultsOnly, Category = "Setup")
     TSubclassOf<AProjectile> ProjectileBlueprint;
 
-    UFUNCTION(BluePrintCallable, Category = Setup)
+    UFUNCTION(BluePrintCallable, Category = "Setup")
     void SetBarrelReference(UTankBarrel* BarrelToSet);
 
-    UFUNCTION(BluePrintCallable, Category = Setup)
-    void SetTurretReference(UTankTurret* TurretToSet);
-
 protected:
-    // Called when the game starts or when spawned
-    virtual void BeginPlay() override;
 
     UPROPERTY(BlueprintReadOnly)
     UTankAimingComponent* TankAimingComponent = nullptr;
     
-    UPROPERTY(BlueprintReadOnly)
-    UTankMovementComponent* TankMovementComponent = nullptr;
-
 private:
     // Local barrel reference for spawning projectile
-    UTankBarrel* Barrel = nullptr;
+    UTankBarrel* Barrel = nullptr; //TODO remove
     double LastFireTime = 0;
 };

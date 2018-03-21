@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// Copyright Razmataz Productions
 
 #pragma once
 
@@ -8,8 +8,10 @@
 
 // Forward Declarations
 class ATank;
+class UTankAimingComponent;
+
 /**
- * 
+ * Responsible for helping the player aim.
  */
 UCLASS()
 class BATTLETANK_API ATankPlayerController : public APlayerController
@@ -18,12 +20,16 @@ class BATTLETANK_API ATankPlayerController : public APlayerController
     
 public:
     virtual void Tick(float DeltaTime) override;
-    virtual void BeginPlay() override;
     
     UFUNCTION(BlueprintCallable, Category = "Setup")
     ATank* GetControlledTank() const;
 
+    UFUNCTION(BlueprintImplementableEvent, Category = "Setup")
+    void FoundAimingComponent(UTankAimingComponent* AimingCompRef);
+
 private:
+    virtual void BeginPlay() override;
+
     // Start the tank moving the barrel so that a shot would 
     // hit where the crosshair intersects the world
     void AimTowardsCrosshair();
