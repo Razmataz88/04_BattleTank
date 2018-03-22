@@ -15,9 +15,37 @@ UTankAimingComponent::UTankAimingComponent()
     PrimaryComponentTick.bCanEverTick = true;
 }
 
+void UTankAimingComponent::BeginPlay()
+{
+    LastFireTime = GetWorld()->GetTimeSeconds();
+}
+
+void UTankAimingComponent::Initialise(UTankBarrel * BarrelToSet, UTankTurret * TurretToSet)
+{
+    Barrel = BarrelToSet;
+    Turret = TurretToSet;
+}
+
+void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction * ThisTickFunction)
+{
+    Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+
+    if ((GetWorld()->GetTimeSeconds() - LastFireTime) < ReloadTimeInSeconds)
+    {
+        FiringState = EFiringState::Reloading;
+    }
+    else if (IsBarrelMoving())
+    {
+        FiringState = EFiringState::Aiming;
+    }
+    else
+    {
+        FiringState = EFiringState::Locked;
+    }
+}
+
 void UTankAimingComponent::AimAt(FVector HitLocation)
 {
-
     if (!Barrel) { return; }
 
     FVector OutLaunchVelocity;
@@ -37,17 +65,11 @@ void UTankAimingComponent::AimAt(FVector HitLocation)
             )
         )
     {
-        auto AimDirection = OutLaunchVelocity.GetSafeNormal();
+        AimDirection = OutLaunchVelocity.GetSafeNormal();
         MoveBarrelTowards(AimDirection);
     }
+    // if no solution found do nothing
 }
-
-void UTankAimingComponent::Initialise(UTankBarrel * BarrelToSet, UTankTurret * TurretToSet)
-{
-    Barrel = BarrelToSet;
-    Turret = TurretToSet;
-}
-
 
 void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 {
@@ -62,18 +84,11 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
     Turret->Rotate(DeltaRotator.Yaw);
 }
 
-void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction * ThisTickFunction)
+bool UTankAimingComponent::IsBarrelMoving()
 {
-    if ((GetWorld()->GetTimeSeconds() - LastFireTime) > ReloadTimeInSeconds)
-    {
-        FiringState = EFiringState::Reloading;
-    }
-    // TODO Handle aiming and locked states
-}
-
-void UTankAimingComponent::BeginPlay()
-{
-    LastFireTime = GetWorld()->GetTimeSeconds();
+    if (!ensure(Barrel)) { return false; }
+    auto BarrelForward = Barrel->GetForwardVector();
+    return !(BarrelForward.Equals(AimDirection, 0.01));
 }
 
 void UTankAimingComponent::FireProjectile()
@@ -88,7 +103,7 @@ void UTankAimingComponent::FireProjectile()
             Barrel->GetSocketLocation(FName("Projectile")),
             Barrel->GetSocketRotation(FName("Projectile"))
             );
-        Projectile->LaunchProjectile(30000);
+        Projectile->LaunchProjectile(LaunchSpeed);
         LastFireTime = GetWorld()->GetTimeSeconds();
     }
 }
