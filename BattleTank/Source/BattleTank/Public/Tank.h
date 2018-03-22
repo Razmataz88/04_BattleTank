@@ -9,7 +9,6 @@
 class UTankBarrel;
 class UTankTurret;
 class AProjectile;
-class UTankAimingComponent;
 
 UCLASS()
 class BATTLETANK_API ATank : public APawn
@@ -19,14 +18,9 @@ class BATTLETANK_API ATank : public APawn
 public:
     // Sets default values for this pawn's properties
     ATank();
-
-    void AimAt(FVector HitLocation);
     
     UFUNCTION(BluePrintCallable, Category = "Firing")
     void FireProjectile();
-    
-    UPROPERTY(EditDefaultsOnly, Category = "Firing")
-    float LaunchSpeed = 4000; 
 
     UPROPERTY(EditDefaultsOnly, Category = "Firing")
     float ReloadTimeInSeconds = 3;
@@ -37,13 +31,6 @@ public:
     UFUNCTION(BluePrintCallable, Category = "Setup")
     void SetBarrelReference(UTankBarrel* BarrelToSet);
 
-    virtual void BeginPlay() override;
-
-protected:
-
-    UPROPERTY(BlueprintReadOnly)
-    UTankAimingComponent* TankAimingComponent = nullptr;
-    
 private:
     // Local barrel reference for spawning projectile
     UTankBarrel* Barrel = nullptr; //TODO remove
