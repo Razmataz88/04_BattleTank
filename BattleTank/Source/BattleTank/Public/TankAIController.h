@@ -12,16 +12,19 @@ class ATank;
 /**
  * 
  */
-UCLASS()
+UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
 class BATTLETANK_API ATankAIController : public AAIController
 {
     GENERATED_BODY()
     
 public:
     
-    virtual void Tick(float DeltaTime) override;
+protected:
+    // How close can the Ai tank get
+    UPROPERTY(EditAnywhere, Category = "Setup") // Consider EditDefaultsOnly
+    float AcceptanceRadius = 8000;
 
 private:
-    // How close can the Ai tank get
-    float AcceptanceRadius = 3000;
+    virtual void Tick(float DeltaTime) override;
+
 };

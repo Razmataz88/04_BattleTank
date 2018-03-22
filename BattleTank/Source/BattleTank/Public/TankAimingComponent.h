@@ -29,6 +29,7 @@ public:
     UTankAimingComponent();
     
     void AimAt(FVector HitLocation);
+    EFiringState GetFiringState() const;
 
     UFUNCTION(BlueprintCallable, Category = "Setup")
     void Initialise(UTankBarrel* BarrelToSet, UTankTurret* TurretToSet);
