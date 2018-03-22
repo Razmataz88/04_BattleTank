@@ -37,6 +37,8 @@ public:
     UFUNCTION(BluePrintCallable, Category = "Setup")
     void SetBarrelReference(UTankBarrel* BarrelToSet);
 
+    virtual void BeginPlay() override;
+
 protected:
 
     UPROPERTY(BlueprintReadOnly)

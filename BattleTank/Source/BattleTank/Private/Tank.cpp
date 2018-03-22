@@ -22,9 +22,8 @@ void ATank::AimAt(FVector HitLocation)
 
 void ATank::FireProjectile()
 {
-    if (!!ensure(Barrel)) { return; }
+    if (!ensure(Barrel)) { return; }
 
-    //UE_LOG(LogTemp, Warning, TEXT("Fire Projectile!"));
     bool isReloaded = (GetWorld()->GetTimeSeconds() - LastFireTime) > ReloadTimeInSeconds;
 
     if (isReloaded) 
@@ -46,3 +45,8 @@ void ATank::SetBarrelReference(UTankBarrel * BarrelToSet)
    
 }
 
+void ATank::BeginPlay()
+{
+    Super::BeginPlay();
+    TankAimingComponent = FindComponentByClass<UTankAimingComponent>();
+}
