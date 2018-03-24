@@ -27,15 +27,15 @@ public:
     
     
 private:
+
     UTankTrack();
     virtual void BeginPlay() override;
-
     void ApplySidewaysForce();
+    void DriveTrack();
 
     UFUNCTION()
     void OnHit(UPrimitiveComponent * HitComponent, AActor * OtherActor, UPrimitiveComponent * Otheromponent, FVector NormalImpulse, const FHitResult & Hit);
 
-    void DriveTrack();
     
     float CurrentThrottle = 0;
 };
