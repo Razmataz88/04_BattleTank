@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "GameFramework/ProjectileMovementComponent.h"
+#include "PhysicsEngine/RadialForceComponent.h"
 #include "Particles/ParticleSystemComponent.h"
 #include "Projectile.generated.h"
 
@@ -27,6 +28,9 @@ protected:
 
     UPROPERTY(VisibleAnywhere, Category = "Components")
     UParticleSystemComponent* ImpactBlast = nullptr;
+
+    UPROPERTY(VisibleAnywhere, Category = "Components")
+    URadialForceComponent* ExplosionForce = nullptr;
 
 private:
     // Called when the game starts or when spawned
