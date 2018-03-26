@@ -26,12 +26,19 @@ public:
 private:
     virtual void BeginPlay() override;
 
+   
+
     // Start the tank moving the barrel so that a shot would 
     // hit where the crosshair intersects the world
     void AimTowardsCrosshair();
     bool GetSightRayHitLocation(FVector& HitLocation) const;
     bool GetLookDirection(FVector2D ScreenLocation, FVector & LookDirection) const;
     bool GetLookVectorHitLocation(FVector& LookDirection, FVector& HitLocation) const;
+
+    void OnPossessedTankDeath();
+
+    UFUNCTION()
+    void SetPawn(APawn * InPawn);
 
     UPROPERTY(EditDefaultsOnly)
     float CrossHairXLocation = 0.5;
