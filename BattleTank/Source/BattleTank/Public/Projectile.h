@@ -14,12 +14,14 @@ class BATTLETANK_API AProjectile : public AActor
 {
     GENERATED_BODY()
     
-public:	
-    // Sets default values for this actor's properties
+public:
+
     AProjectile();
+
     void LaunchProjectile(float Speed);
 
 protected:
+
     UPROPERTY(VisibleAnywhere, Category = "Components")
     UStaticMeshComponent* CollisionMesh = nullptr;
 
@@ -33,7 +35,6 @@ protected:
     URadialForceComponent* ExplosionForce = nullptr;
 
 private:
-    // Called when the game starts or when spawned
     virtual void BeginPlay() override;
     void OnTimerExpire();
 

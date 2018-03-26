@@ -21,14 +21,16 @@ class UTankBarrel;
 class UTankTurret;
 class AProjectile;
 
+/**
+* Aiming Functionality for the Tank
+*/
 UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
 class BATTLETANK_API UTankAimingComponent : public UActorComponent
 {
     GENERATED_BODY()
 
 public:
-    UTankAimingComponent();
-    
+
     void AimAt(FVector HitLocation);
     EFiringState GetFiringState() const;
     
@@ -43,17 +45,17 @@ public:
     int32 GetRoundsLeft() const;
 
 
-
     UPROPERTY(EditDefaultsOnly, Category = "Firing")
     float ReloadTimeInSeconds = 3;
+    
+    UPROPERTY(EditDefaultsOnly, Category = "Firing")
+    float LaunchSpeed = 4000;
 
     UPROPERTY(EditDefaultsOnly, Category = "Setup")
     TSubclassOf<AProjectile> ProjectileBlueprint;
 
-    UPROPERTY(EditDefaultsOnly, Category = "Firing")
-    float LaunchSpeed = 4000;
-
 protected:
+
     UPROPERTY(BlueprintReadOnly, Category = "State")
     EFiringState FiringState = EFiringState::Reloading;
 
@@ -61,6 +63,9 @@ protected:
     int32 RoundsLeft = 3;
 
 private:
+
+    UTankAimingComponent();
+
     virtual void TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction) override;
     virtual void BeginPlay() override;
 

@@ -2,13 +2,18 @@
 
 #include "TankTrack.h"
 
-
+/**
+* Constructor
+*/
 UTankTrack::UTankTrack()
 {
     PrimaryComponentTick.bCanEverTick = false;
     
 }
 
+/**
+*  BeginPlay
+*/
 void UTankTrack::BeginPlay()
 {
     Super::BeginPlay();
@@ -17,6 +22,9 @@ void UTankTrack::BeginPlay()
 }
 
 
+/**
+* Applys a SidewaysForce to controll the tank from "slipping" sideways
+*/
 void UTankTrack::ApplySidewaysForce()
 {
     auto DeltaTime = GetWorld()->GetDeltaSeconds();
@@ -34,6 +42,9 @@ void UTankTrack::ApplySidewaysForce()
     TankRoot->AddForce(CorrectionForce);
 }
 
+/**
+* 
+*/
 void UTankTrack::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* Otheromponent, FVector NormalImpulse, const FHitResult& Hit)
 {
     DriveTrack();
@@ -43,11 +54,17 @@ void UTankTrack::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UP
     CurrentThrottle = 0;
 }
 
+/**
+* Set's the Throttle of the track
+*/
 void UTankTrack::SetThrottle(float Throttle)
 {
     CurrentThrottle = FMath::Clamp<float>(CurrentThrottle + Throttle, -1, 1);
 }
 
+/**
+* Applys Forces to the origin point of the track
+*/
 void UTankTrack::DriveTrack()
 {
     auto ForceApplied = GetForwardVector() * CurrentThrottle * TrackMaxDrivingForce;

@@ -5,6 +5,9 @@
 #include "Tank.h"
 #include "TankAimingComponent.h"
 
+/**
+* Tick called once every frame
+*/
 void ATankAIController::Tick(float DeltaTime)
 {
     Super::Tick(DeltaTime);
@@ -29,6 +32,9 @@ void ATankAIController::Tick(float DeltaTime)
     }
 }
 
+/**
+* Called when pawn is set so a delegate can be set on the pawn
+*/
 void ATankAIController::SetPawn(APawn * InPawn)
 {
     Super::SetPawn(InPawn);
@@ -41,6 +47,9 @@ void ATankAIController::SetPawn(APawn * InPawn)
     }
 }
 
+/**
+* Removes Ai control of tank upon death
+*/
 void ATankAIController::OnPossessedTankDeath()
 {
     if (!ensure(GetPawn())) { return; }

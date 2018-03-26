@@ -4,10 +4,11 @@
 #include "Kismet/GameplayStatics.h"
 #include "GameFramework/ProjectileMovementComponent.h"
 
-// Sets default values
+/**
+* Sets default values
+*/
 AProjectile::AProjectile()
 {
-    // Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
     PrimaryActorTick.bCanEverTick = false;
 
     CollisionMesh = CreateDefaultSubobject<UStaticMeshComponent>(FName("Collision Mesh"));
@@ -27,16 +28,20 @@ AProjectile::AProjectile()
 
     ExplosionForce = CreateDefaultSubobject<URadialForceComponent>(FName("Explosion"));
     ExplosionForce->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
-    // ExplosionForce->bAutoActivate = false;
 }
 
-// Called when the game starts or when spawned
+/**
+* Called when the game starts or when spawned
+*/
 void AProjectile::BeginPlay()
 {
     Super::BeginPlay();
     CollisionMesh->OnComponentHit.AddDynamic(this, &AProjectile::OnHit);
 }
 
+/**
+* When Projectile collides an explosion occurs and dammage is applied to the object the projectile hit
+*/
 void AProjectile::OnHit(UPrimitiveComponent * HitComponent, AActor * OtherActor, UPrimitiveComponent * Otheromponent, FVector NormalImpulse, const FHitResult & Hit)
 {
     LaunchBlast->Deactivate();
@@ -60,11 +65,17 @@ void AProjectile::OnHit(UPrimitiveComponent * HitComponent, AActor * OtherActor,
 
 }
 
+/**
+* The projectile will be destroyed at a certain length of time after it collided with an object
+*/
 void AProjectile::OnTimerExpire()
 {
     Destroy();
 }
 
+/**
+* Applies a velocity and direction for the projectil to be launched
+*/
 void AProjectile::LaunchProjectile(float Speed)
 {
     ProjectileMovement->SetVelocityInLocalSpace(FVector::ForwardVector * Speed);

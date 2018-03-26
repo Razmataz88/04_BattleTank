@@ -7,7 +7,10 @@
 #include "Kismet/GameplayStatics.h"
 
 
-// Sets default values for this component's properties
+/**
+* Sets default values for this component's properties
+*/
+
 UTankAimingComponent::UTankAimingComponent()
 {
     // Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
@@ -15,17 +18,26 @@ UTankAimingComponent::UTankAimingComponent()
     PrimaryComponentTick.bCanEverTick = true;
 }
 
+/**
+* Initializes the LastFireTime so Players and AI cannot immediately fire when game starts
+*/
 void UTankAimingComponent::BeginPlay()
 {
     LastFireTime = GetWorld()->GetTimeSeconds();
 }
 
+/**
+* Initialises Barrel and Turret references
+*/
 void UTankAimingComponent::Initialise(UTankBarrel * BarrelToSet, UTankTurret * TurretToSet)
 {
     Barrel = BarrelToSet;
     Turret = TurretToSet;
 }
 
+/**
+* Called once ever frame
+*/
 void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction * ThisTickFunction)
 {
     Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
@@ -48,16 +60,25 @@ void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, F
     }
 }
 
+/**
+* Returns the FiringState of the Tank
+*/
 EFiringState UTankAimingComponent::GetFiringState() const
 {
     return FiringState;
 }
 
+/**
+* Returns the amount of ammo left of the Tank
+*/
 int32 UTankAimingComponent::GetRoundsLeft() const
 {
     return RoundsLeft;
 }
 
+/**
+* Calculates Hitlocation and velocity of the projectile 
+*/
 void UTankAimingComponent::AimAt(FVector HitLocation)
 {
     if (!Barrel) { return; }
@@ -85,6 +106,9 @@ void UTankAimingComponent::AimAt(FVector HitLocation)
     // if no solution found do nothing
 }
 
+/**
+* Calculates the rotaion of the barrel and turret to move towards aimpoint
+*/
 void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 {
     if (!ensure(Barrel) || !ensure(Turret)) { return; }
@@ -105,6 +129,9 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
     }
 }
 
+/**
+* Calculates if the reticule matches the direction of the barrel's aim
+*/
 bool UTankAimingComponent::IsBarrelMoving()
 {
     if (!ensure(Barrel)) { return false; }
@@ -112,6 +139,10 @@ bool UTankAimingComponent::IsBarrelMoving()
     return !(BarrelForward.Equals(AimDirection, 0.01));
 }
 
+/**
+* Spawns projectile and fires 
+* Keeps track of Rounds left
+*/
 void UTankAimingComponent::FireProjectile()
 {
     if (FiringState != EFiringState::Reloading && FiringState != EFiringState::OutOfAmmo)

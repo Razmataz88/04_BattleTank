@@ -6,6 +6,7 @@
 #include "Components/StaticMeshComponent.h"
 #include "TankTrack.generated.h"
 
+
 /**
  * TankTrack is used to set maximum driving force, and to move the tank
  */
@@ -30,12 +31,12 @@ private:
 
     UTankTrack();
     virtual void BeginPlay() override;
+    
     void ApplySidewaysForce();
     void DriveTrack();
 
     UFUNCTION()
     void OnHit(UPrimitiveComponent * HitComponent, AActor * OtherActor, UPrimitiveComponent * Otheromponent, FVector NormalImpulse, const FHitResult & Hit);
 
-    
     float CurrentThrottle = 0;
 };

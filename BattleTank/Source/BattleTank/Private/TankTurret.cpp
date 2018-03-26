@@ -3,6 +3,9 @@
 #include "TankTurret.h"
 
 
+/**
+* Rotates the Tank Turret at a relative speed
+*/
 void UTankTurret::Rotate(float RelativeSpeed)
 {
     RelativeSpeed = FMath::Clamp<float>(RelativeSpeed, -1, 1);
@@ -11,5 +14,3 @@ void UTankTurret::Rotate(float RelativeSpeed)
 
     SetRelativeRotation(FRotator(0, RawNewRotation, 0));
 }
-
-
